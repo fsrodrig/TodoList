@@ -1,7 +1,17 @@
 const express = require('express');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const appRoutes = require('./routes/app');
+const taskRoutes = require('./routes/task');
+
 const app = express();
 const port = 3000;
-const mongoose = require('mongoose');
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+// parse application/json
+app.use(bodyParser.json())
+
 
 // DB Connection
 mongoose.connect('mongodb://localhost:27017/todo-list', {useNewUrlParser: true, useUnifiedTopology: true}, (err, res) => {
@@ -10,10 +20,7 @@ mongoose.connect('mongodb://localhost:27017/todo-list', {useNewUrlParser: true, 
 });
 
 // Routes
-app.get('/', (req, res) => {
-    res.status(200).json({
-        status: 'ok'
-    })
-});
+app.use('/task', taskRoutes)
+app.use('/', appRoutes);
 
 app.listen(port, () => console.log(`listening on http://localhost:${port}`));
