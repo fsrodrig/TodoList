@@ -14,13 +14,13 @@ app.use(bodyParser.json())
 
 
 // DB Connection
-mongoose.connect('mongodb://localhost:27017/todo-list', {useNewUrlParser: true, useUnifiedTopology: true}, (err, res) => {
+mongoose.connect('mongodb://localhost:27017/todo-list', {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false}, (err, res) => {
     if (err) throw err;
     console.log('database todo-list: \x1b[32m%s\x1b[0m', 'online')
 });
 
 // Routes
-app.use('/task', taskRoutes)
+app.use('/tasks', taskRoutes)
 app.use('/', appRoutes);
 
 app.listen(port, () => console.log(`listening on http://localhost:${port}`));
