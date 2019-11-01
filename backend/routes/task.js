@@ -1,21 +1,26 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const app = express();
+var express = require('express');
+var mongoose = require('mongoose');
+var ITEMS_PER_PAGE = require('../config/constants').ITEMS_PER_PAGE;
+var Task = require('../models/Task');
+var mdAuth = require('../middlewares/autenticacion');
 
-const Task = require('../models/Task');
 
-// GET Tasks
-app.get('/', (req, res) => {
+var app = express();
+
+// =================================
+// GET ALL TASKS
+// =================================
+app.get('/', mdAuth.verifyToken, (req, res) => {
 
     var page = req.query.page || 0;
-    var per_page = req.query.per_page || 5;
+    var per_page = req.query.per_page || ITEMS_PER_PAGE;
     page = Number(page);
     per_page = Number(per_page);
 
     if (isNaN(page) || isNaN(per_page)) {
         return res.status(400).json({
             ok: false,
-            msg: 'Error de paginado',
+            message: 'Error de paginado',
             errors: err
         })
     }
@@ -28,7 +33,7 @@ app.get('/', (req, res) => {
                 if (err) {
                     return res.status(500).json({
                         ok: false,
-                        msg: 'Error cargando tareas',
+                        message: 'Error cargando tareas',
                         errors: err
                     })
                 }
@@ -37,7 +42,7 @@ app.get('/', (req, res) => {
                     if (err) {
                         return res.status(500).json({
                             ok: false,
-                            msg: 'Error cargando tareas',
+                            message: 'Error cargando tareas',
                             errors: err
                         })
                     }
@@ -51,8 +56,10 @@ app.get('/', (req, res) => {
 
 });
 
-// FIND Task
-app.get('/search/:query?', (req, res) => {
+// =================================
+// FIND TASKS
+// =================================
+app.get('/search/:query?', mdAuth.verifyToken, (req, res) => {
 
     const query = req.params.query;
     const regex = new RegExp(query, 'i');
@@ -64,14 +71,14 @@ app.get('/search/:query?', (req, res) => {
     };
 
     var page = req.query.page || 0;
-    var per_page = req.query.per_page || 5;
+    var per_page = req.query.per_page || ITEMS_PER_PAGE;
     page = Number(page);
     per_page = Number(per_page);
 
     if (isNaN(page) || isNaN(per_page)) {
         return res.status(400).json({
             ok: false,
-            msg: 'Error de paginado',
+            message: 'Error de paginado',
             errors: err
         })
     }
@@ -86,7 +93,7 @@ app.get('/search/:query?', (req, res) => {
                 if (err) {
                     return res.status(500).json({
                         ok: false,
-                        msg: 'Error cargando tareas',
+                        message: 'Error cargando tareas',
                         errors: err
                     });
                 }
@@ -95,7 +102,7 @@ app.get('/search/:query?', (req, res) => {
                     if (err) {
                         return res.status(500).json({
                             ok: false,
-                            msg: 'Error cargando tareas',
+                            message: 'Error cargando tareas',
                             errors: err
                         });
                     }
@@ -115,7 +122,7 @@ app.get('/search/:query?', (req, res) => {
                 if (err) {
                     return res.status(500).json({
                         ok: false,
-                        msg: 'Error cargando tareas',
+                        message: 'Error cargando tareas',
                         errors: err
                     });
                 }
@@ -124,7 +131,7 @@ app.get('/search/:query?', (req, res) => {
                     if (err) {
                         return res.status(500).json({
                             ok: false,
-                            msg: 'Error cargando tareas',
+                            message: 'Error cargando tareas',
                             errors: err
                         });
                     }
@@ -139,8 +146,10 @@ app.get('/search/:query?', (req, res) => {
 
 });
 
-// CREATE Task
-app.post('/', (req, res) => {
+// =================================
+// CREATE TASKS
+// =================================
+app.post('/', mdAuth.verifyToken, (req, res) => {
     var body = req.body;
 
     var task = new Task({
@@ -153,20 +162,22 @@ app.post('/', (req, res) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
-                msg: 'Error creando tareas',
+                message: 'Error creando tareas',
                 errors: err
             })
         }
 
         res.status(201).json({
             ok: true,
-            saved
+            task: saved
         })
     });
 });
 
-// UPDATE Tasks
-app.put('/:id', (req, res) => {
+// =================================
+// UPDATE Task
+// =================================
+app.put('/:id', mdAuth.verifyToken, (req, res) => {
     const id = req.params.id;
     var body = req.body;
 
@@ -174,7 +185,7 @@ app.put('/:id', (req, res) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
-                msg: 'Error al buscar tareas',
+                message: 'Error al buscar tareas',
                 errors: err
             })
         }
@@ -182,7 +193,7 @@ app.put('/:id', (req, res) => {
         if (!task) {
             return res.status(404).json({
                 ok: false,
-                msg: `No se encontró la tarea con id: ${id} `,
+                message: `No se encontró la tarea con id: ${id} `,
                 errors: {
                     message: 'No se encontró una tarea con ese ID'
                 }
@@ -197,28 +208,30 @@ app.put('/:id', (req, res) => {
             if (err) {
                 return res.status(500).json({
                     ok: false,
-                    msg: 'Error actualizando tareas',
+                    message: 'Error actualizando tareas',
                     errors: err
                 })
             }
 
             res.status(200).json({
                 ok: true,
-                saved
+                task: saved
             })
         });
     });
 });
 
+// =================================
 // DELETE Task
-app.delete('/:id', (req, res) => {
+// =================================
+app.delete('/:id', mdAuth.verifyToken, (req, res) => {
     const id = req.params.id;
 
     Task.findByIdAndRemove(id, (err, deleted) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
-                msg: 'Error actualizando tareas',
+                message: 'Error eliminando tareas',
                 errors: err
             })
         }
@@ -226,7 +239,7 @@ app.delete('/:id', (req, res) => {
         if (!deleted) {
             return res.status(404).json({
                 ok: false,
-                msg: `No se encontró la tarea con id: ${id} `,
+                message: `No se encontró la tarea con id: ${id} `,
                 errors: {
                     message: 'No se encontró una tarea con ese ID'
                 }
@@ -235,7 +248,7 @@ app.delete('/:id', (req, res) => {
 
         res.status(200).json({
             ok: true,
-            deleted
+            task: deleted
         })
     });
 })

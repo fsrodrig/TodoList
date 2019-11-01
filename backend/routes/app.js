@@ -1,11 +1,11 @@
-const express = require('express');
-const app = express();
+var express = require('express');
+var app = express();
 
 // Routes
 app.get('/', (req, res) => {
     res.status(200).json({
         ok: true,
-        msg: 'Get App'
+        message: 'Conection Success'
     })
 });
 
