@@ -6,6 +6,7 @@ var taskRoutes = require('./routes/task');
 var userRoutes = require('./routes/user');
 var loginRoutes = require('./routes/login')
 var uploadRoutes = require('./routes/upload')
+var downloadRoutes = require('./routes/download')
 var app = express();
 var port = 3000;
 
@@ -31,6 +32,7 @@ app.use('/tasks', taskRoutes);
 app.use('/users', userRoutes);
 app.use('/login', loginRoutes);
 app.use('/upload', uploadRoutes);
+app.use('/download', downloadRoutes);
 app.use('/', appRoutes);
 
 app.listen(port, () => console.log(`listening on http://localhost:${port}`));
