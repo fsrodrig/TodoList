@@ -1,7 +1,7 @@
 var express = require('express');
 var app = express();
 var mdAuth = require('../middlewares/autenticacion')
-var User = require('../models/user');
+var User = require('../models/User');
 
 var bcrypt = require('bcryptjs');
 
