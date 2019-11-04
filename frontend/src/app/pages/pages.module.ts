@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ServiceModule } from '../services/service.module';
 
 // Routes
 import { PAGES_ROUTES } from './pages.routes';
@@ -21,7 +22,8 @@ import { HeaderComponent } from '../shared/header/header.component';
   ],
   imports: [
     PAGES_ROUTES,
-    CommonModule
+    CommonModule,
+    ServiceModule
   ]
 })
 export class PagesModule { }

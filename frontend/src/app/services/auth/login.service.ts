@@ -8,8 +8,8 @@ import { Router } from '@angular/router';
 @Injectable()
 export class LoginService {
 
-  userId: string;
-  token: string;
+  userId: string = null;
+  token: string = null;
 
   url = API_URL + '/login';
 
@@ -48,6 +48,6 @@ export class LoginService {
   }
 
   isAuthenticated() {
-    return this.token.length >  5;
+    return this.token !== null;
   }
 }

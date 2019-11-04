@@ -34,7 +34,12 @@ export class LoginComponent implements OnInit {
     };
 
     this.loginService.login(this.user).subscribe(
-      () => this.router.navigate(['/task'])
+      () => this.router.navigate(['/task']),
+      (err) => {
+        if (err.status === 404) {
+          this.error = err.error.message;
+        }
+      }
     );
   }
 

@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { LoginService } from '../services/service.index';
 
-import swal from 'sweetalert';
+declare var swal: any;
 
 export class AuthExpiredInterceptor implements HttpInterceptor {
     constructor(private injector: Injector) {}

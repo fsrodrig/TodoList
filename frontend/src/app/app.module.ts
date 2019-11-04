@@ -1,6 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, Injector } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './config/auth.interceptor';
+import { AuthExpiredInterceptor } from './config/auth-expired.interceptor';
 
 // Routes
 import { AppRoutingModule } from './app-routing.module';
@@ -13,6 +16,7 @@ import { LoginComponent } from './core/login/login.component';
 import { PagesModule } from './pages/pages.module';
 import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component';
 import { RegisterComponent } from './core/register/register.component';
+import { ServiceModule } from './services/service.module';
 
 @NgModule({
   declarations: [
@@ -26,9 +30,22 @@ import { RegisterComponent } from './core/register/register.component';
     AppRoutingModule,
     ReactiveFormsModule,
     FormsModule,
-    PagesModule
+    PagesModule,
+    ServiceModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthExpiredInterceptor,
+      multi: true,
+      deps: [Injector]
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

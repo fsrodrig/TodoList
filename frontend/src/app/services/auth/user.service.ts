@@ -4,7 +4,7 @@ import { API_URL } from '../../config/config';
 import { User } from 'src/app/models/user.model';
 
 import { map } from 'rxjs/operators';
-import swal from 'sweetalert';
+declare var swal: any;
 
 @Injectable()
 export class UserService {

@@ -1,3 +1,49 @@
-<p>
-  register works!
-</p>
+<section id="wrapper">
+  <div class="login-register">
+    <div class="login-box card">
+      <div class="card-body">
+        <form ngNativeValidate [formGroup]="form" (ngSubmit)="save()" class="form-horizontal form-material" id="registerform">
+          <h3 class="box-title m-b-20">Registrate</h3>
+          <div class="form-group ">
+            <div class="col-xs-12">
+              <input id="name" formControlName="name" name="name" autocomplete="name" class="form-control" type="text" required=""
+                placeholder="Nombre"> </div>
+          </div>
+          <div class="form-group ">
+            <div class="col-xs-12">
+              <input id="email" formControlName="email" name="email" autocomplete="email" class="form-control" type="email" required=""
+                placeholder="Email"> </div>
+          </div>
+          <div class="form-group ">
+            <div class="col-xs-12">
+              <input id="password" formControlName="password" name="password" autocomplete="password" class="form-control" type="password" required=""
+                placeholder="Contraseña"> </div>
+          </div>
+          <div class="form-group ">
+            <div class="col-xs-12">
+              <input id="password2" formControlName="password2" name="password2" autocomplete="password2" class="form-control" type="password" required=""
+                placeholder="Confirmar Contraseña"> </div>
+          </div>
+          <div class="form-group" *ngIf="form.errors?.verifyPass && !form.pristine">
+            <p class="text-danger">
+                Las contraseñas deben de se iguales
+            </p>
+          </div>
+          <div class="form-group text-center">
+            <div class="col-xs-12 p-b-20">
+              <button class="btn btn-block btn-lg btn-info btn-rounded" type="submit">Ingresar</button>
+            </div>
+          </div>
+          <div class="col text-center" [hidden]="error === null">
+            <span class="text-danger"><small>{{ error }}</small></span>
+          </div>
+        </form>
+        <div class="form-group m-b-0">
+          <div class="col-sm-12 text-center">
+              <p>¿Ya tenes una cuenta? <a routerLink="/login" class="text-info m-l-5"><b>Ingresa ahora</b></a></p>
+          </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</section>
