@@ -60,7 +60,11 @@ export class RegisterComponent implements OnInit {
     this.userService.save(user).subscribe(
       () => this.router.navigate(['/login']),
       (err) => {
-          this.error = err.error.message;
+        this.error = err.error.message;
+        if (err.status === 400) {
+          const errors = err.error.errors.message.split(':');
+          this.error = this.error.concat(`. ${errors[errors.length - 1]}`);
+        }
       }
     );
 
