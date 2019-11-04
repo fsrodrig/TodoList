@@ -1,0 +1,30 @@
+<section id="wrapper">
+  <div class="login-register">
+    <div class="login-box card">
+      <div class="card-body">
+        <form ngNativeValidate #f="ngForm" (ngSubmit)="login(f)" class="form-horizontal form-material" id="loginform"
+          action="index.html">
+          <h3 class="box-title m-b-20">Iniciar Sesión</h3>
+          <div class="form-group ">
+            <div class="col-xs-12">
+              <input id="email" ngModel name="email" autocomplete="email" class="form-control" type="email" required=""
+                placeholder="Email"> </div>
+          </div>
+          <div class="form-group">
+            <div class="col-xs-12">
+              <input ngModel id="password" autocomplete="current-password" name="password" class="form-control"
+                type="password" required="" placeholder="Contraseña"> </div>
+          </div>
+          <div class="form-group text-center">
+            <div class="col-xs-12 p-b-20">
+              <button class="btn btn-block btn-lg btn-info btn-rounded" type="submit">Ingresar</button>
+            </div>
+          </div>
+          <div class="col text-center" [hidden]="error === null">
+            <span class="text-danger"><small>{{ error }}</small></span>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

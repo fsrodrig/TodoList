@@ -1,0 +1,53 @@
+import { Injector } from '@angular/core';
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { LoginService } from '../services/service.index';
+
+import swal from 'sweetalert';
+
+export class AuthExpiredInterceptor implements HttpInterceptor {
+    constructor(private injector: Injector) {}
+
+    intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        return next.handle(request).pipe(
+            tap(
+                (event: HttpEvent<any>) => {},
+                (err: any) => {
+                    if (err instanceof HttpErrorResponse) {
+                        if (err.status === 401) {
+                            const loginService: LoginService = this.injector.get(LoginService);
+                            swal({
+                                title: 'Acceso no autorizado',
+                                text: 'No posee permisos para esta acción',
+                                icon: 'error',
+                                dangerMode: true,
+                                buttons: {
+                                    cancel: {
+                                        text: 'Regresar',
+                                        value: 'cancel',
+                                        visible: true,
+                                        className: '',
+                                        closeModal: true,
+                                    },
+                                    logout: {
+                                        text: 'Cambiar usuario',
+                                        value: 'logout',
+                                        visible: true,
+                                        className: '',
+                                        closeModal: true
+                                    }
+                                }
+                            })
+                            .then((value) => {
+                                if (value === 'logout') {
+                                    loginService.logout();
+                                }
+                            });
+                        }
+                    }
+                }
+            )
+        );
+    }
+}

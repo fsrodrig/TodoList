@@ -33,7 +33,7 @@ app.get('/', (req, res, next) => {
 // =================================
 // CREATE USER
 // =================================
-app.post('/', mdAuth.verifyToken, (req, res) => {
+app.post('/', (req, res) => {
 
     var body = req.body;
 
