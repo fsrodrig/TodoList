@@ -1,3 +1,47 @@
-<p>
-  task works!
-</p>
+<div class="card">
+  <div class="card-body">
+    <h2 class="card-title">Tareas</h2>
+
+    <button [routerLink]="['new']" routerLinkActive="router-link-active" class="btn mb-2 float-right btn-primary">
+      Nueva Tarea
+    </button>
+    <table class="table mt-5 table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">Descripción</th>
+          <th scope="col">Adjunto</th>
+          <th scope="col">Estado</th>
+          <th scope="col">
+              <form name="searchForm" class="form-inline float-right">
+              <div class="input-group search float-right">
+                  <input type="text" class="form-control" [(ngModel)]="searchBox" placeholder="Buscar" id="searchBox" name="searchBox" (ngModelChange)="search($event)" aria-label="Buscar">
+                  <div class="input-group-append">
+                      <select class="custom-select" aria-placeholder="Estado" (change)="search($event)" [(ngModel)]="statusBox" name="statusBox" id="statusBox">
+                          <option [ngValue]="null">Todas</option>
+                          <option [ngValue]="true">Realizadas</option>
+                          <option [ngValue]="false">Pendientes</option>
+                      </select>
+                  </div>
+                </div>
+              </form>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let task of tasks | async">
+          <td>{{ task._id }}</td>
+          <td>{{ task.description }}</td>
+          <td>{{ task.attached }}</td>
+          <td>
+            <a (click)="changeStatus(task)" *ngIf="task.status" class="badge pointer text-white badge-success">Realizada</a>
+            <a (click)="changeStatus(task)" *ngIf="!task.status" class="badge pointer text-white badge-warning">Pendiente</a>
+          </td>
+          <td>
+            <button type="button" (click)="delete(task)" class="btn btn-sm btn-danger float-right">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

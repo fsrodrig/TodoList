@@ -11,11 +11,11 @@ export class AuthInterceptor implements HttpInterceptor {
             return next.handle(request);
         }
 
-        const token = JSON.parse(localStorage.getItem('token'));
+        const token = localStorage.getItem('token');
         if (!!token) {
             request = request.clone({
                 setParams: {
-                    access_token: token.id
+                    token
                 }
             });
         }

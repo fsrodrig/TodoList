@@ -59,12 +59,12 @@ app.get('/', mdAuth.verifyToken, (req, res) => {
 // =================================
 // FIND TASKS
 // =================================
-app.get('/search/:query?', mdAuth.verifyToken, (req, res) => {
+app.get('/search', mdAuth.verifyToken, (req, res) => {
 
-    const query = req.params.query;
+    const query = req.query.query;
     const regex = new RegExp(query, 'i');
     const isId = mongoose.Types.ObjectId.isValid(query);
-    const statusQuery = req.body.status;
+    const statusQuery = req.query.status;
 
     var queryParams = {
         $or: [{description: regex}, {_id: isId ? query: null}]
@@ -83,7 +83,7 @@ app.get('/search/:query?', mdAuth.verifyToken, (req, res) => {
         })
     }
 
-    if (statusQuery !== undefined) {
+    if (statusQuery != undefined) {
         queryParams.$and = [{status: statusQuery}];
         Task.find(queryParams)
         .skip(page)

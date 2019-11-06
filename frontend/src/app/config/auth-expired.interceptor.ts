@@ -15,8 +15,8 @@ export class AuthExpiredInterceptor implements HttpInterceptor {
                 (event: HttpEvent<any>) => {},
                 (err: any) => {
                     if (err instanceof HttpErrorResponse) {
+                        const loginService: LoginService = this.injector.get(LoginService);
                         if (err.status === 401) {
-                            const loginService: LoginService = this.injector.get(LoginService);
                             swal({
                                 title: 'Acceso no autorizado',
                                 text: 'No posee permisos para esta acción',
@@ -44,6 +44,8 @@ export class AuthExpiredInterceptor implements HttpInterceptor {
                                     loginService.logout();
                                 }
                             });
+                        } else if (err.status === 403) {
+                          swal('Error', err.message, 'error').then( () => loginService.logout());
                         }
                     }
                 }

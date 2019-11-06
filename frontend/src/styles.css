@@ -40,3 +40,11 @@
   position: absolute;
   height: 100%;
 }
+
+.pointer {
+  cursor: pointer;
+}
+
+.search {
+  max-width: 20rem;
+}

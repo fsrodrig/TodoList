@@ -4,6 +4,8 @@ import { User } from '../../models/user.model';
 import { NgForm } from '@angular/forms';
 import { LoginService } from '../../services/service.index';
 
+declare var swal: any;
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -38,6 +40,8 @@ export class LoginComponent implements OnInit {
       (err) => {
         if (err.status === 404) {
           this.error = err.error.message;
+        } else {
+          swal( 'Error', err.error.message, 'error');
         }
       }
     );
