@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ServiceModule } from '../services/service.module';
-// import {NgbPaginationModule} from '@ng-bootstrap/ng-bootstrap';
 
 // Routes
 import { PAGES_ROUTES } from './pages.routes';
@@ -27,8 +26,7 @@ import { HeaderComponent } from '../shared/header/header.component';
     CommonModule,
     ServiceModule,
     FormsModule,
-    ReactiveFormsModule,
-    // NgbPaginationModule
+    ReactiveFormsModule
   ]
 })
 export class PagesModule { }

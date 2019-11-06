@@ -23,30 +23,16 @@ import {
 export class TaskComponent implements OnInit {
 
   tasks: Observable < Task[]>;
-  items: Observable<number>;
 
   searchBox: string;
   statusBox: boolean = null;
-
-  page = 0;
-  perPage = 5;
 
   constructor(
     protected taskService: TaskService
   ) {}
 
   ngOnInit() {
-    this.taskService.getAll({
-      page: this.page,
-      per_page: this.perPage
-    }).pipe(
-      map(
-        (res: any) => {
-          this.tasks = res.tasks;
-          this.items = res.count;
-        }
-      )
-    );
+    this.tasks = this.taskService.getAll();
   }
 
   changeStatus(task: Task) {

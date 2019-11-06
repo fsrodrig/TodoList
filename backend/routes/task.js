@@ -1,6 +1,5 @@
 var express = require('express');
 var mongoose = require('mongoose');
-var ITEMS_PER_PAGE = require('../config/constants').ITEMS_PER_PAGE;
 var Task = require('../models/Task');
 var mdAuth = require('../middlewares/autenticacion');
 
@@ -12,22 +11,7 @@ var app = express();
 // =================================
 app.get('/', mdAuth.verifyToken, (req, res) => {
 
-    var page = req.query.page || 0;
-    var per_page = req.query.per_page || ITEMS_PER_PAGE;
-    page = Number(page);
-    per_page = Number(per_page);
-
-    if (isNaN(page) || isNaN(per_page)) {
-        return res.status(400).json({
-            ok: false,
-            message: 'Error de paginado',
-            errors: err
-        })
-    }
-
     Task.find({})
-        .skip(page)
-        .limit(per_page)
         .exec(
             (err, tasks) => {
                 if (err) {
@@ -70,24 +54,9 @@ app.get('/search', mdAuth.verifyToken, (req, res) => {
         $or: [{description: regex}, {_id: isId ? query: null}]
     };
 
-    var page = req.query.page || 0;
-    var per_page = req.query.per_page || ITEMS_PER_PAGE;
-    page = Number(page);
-    per_page = Number(per_page);
-
-    if (isNaN(page) || isNaN(per_page)) {
-        return res.status(400).json({
-            ok: false,
-            message: 'Error de paginado',
-            errors: err
-        })
-    }
-
     if (statusQuery != undefined) {
         queryParams.$and = [{status: statusQuery}];
         Task.find(queryParams)
-        .skip(page)
-        .limit(per_page)
         .exec(
             (err, tasks) => {
                 if (err) {
@@ -115,8 +84,6 @@ app.get('/search', mdAuth.verifyToken, (req, res) => {
             });
     } else {
         Task.find(queryParams)
-        .skip(page)
-        .limit(per_page)
         .exec(
             (err, tasks) => {
                 if (err) {
