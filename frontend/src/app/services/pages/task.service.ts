@@ -17,10 +17,10 @@ export class TaskService {
     protected http: HttpClient
   ) { }
 
-  getAll() {
-    return this.http.get(this.url)
+  getAll(pagination: any) {
+    return this.http.get(this.url, {params: pagination})
       .pipe(
-        map( (res: any) =>  res.tasks ),
+        map( (res: any) =>  res ),
         catchError( (error: any) => {
           swal( 'Error', error.error.message, 'error');
           return new Observable<any>();

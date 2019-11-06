@@ -1,3 +1,30 @@
-<p>
-  task-new works!
-</p>
+<div class="card">
+  <div class="card-body">
+    <h2 class="card-title">Nueva Tarea</h2>
+
+    <form ngNativeValidate [formGroup]="form" (ngSubmit)="save()" class="form-horizontal form-material" id="registerform">
+        <div class="form-group ">
+          <div class="col-xs-12">
+            <input id="description" formControlName="description" name="description" autocomplete="description" class="form-control" type="text" required=""
+              placeholder="Descripción"> </div>
+        </div>
+        <div class="form-group ">
+            <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="status" name="status" formControlName="status">
+                <label class="custom-control-label" for="customSwitch1">Estado</label>
+              </div>
+        </div>
+        <div class="form-group ">
+            <div class="custom-file">
+                <input type="file" name="attached" formControlName="attached" class="custom-file-input" id="customFileLang" lang="es">
+                <label class="custom-file-label" for="customFileLang">Seleccionar Archivo</label>
+              </div>
+        </div>
+        <div class="form-group text-center">
+          <div class="col-xs-12 p-b-20">
+            <button class="btn btn-block btn-lg btn-info btn-rounded" type="submit">Guardar</button>
+          </div>
+        </div>
+      </form>
+  </div>
+</div>
