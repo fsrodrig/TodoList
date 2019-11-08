@@ -6,6 +6,9 @@ import { ServiceModule } from '../services/service.module';
 // Routes
 import { PAGES_ROUTES } from './pages.routes';
 
+// Services
+import { FilesService } from '../services/service.index';
+
 // Components
 import {
   PagesComponent,
@@ -27,6 +30,9 @@ import { HeaderComponent } from '../shared/header/header.component';
     ServiceModule,
     FormsModule,
     ReactiveFormsModule
+  ],
+  providers: [
+    FilesService
   ]
 })
 export class PagesModule { }

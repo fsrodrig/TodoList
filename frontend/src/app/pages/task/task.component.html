@@ -32,7 +32,12 @@
         <tr *ngFor="let task of tasks | async">
           <td>{{ task._id }}</td>
           <td>{{ task.description }}</td>
-          <td>{{ task.attached }}</td>
+          <td>
+            {{ task.attached }}
+            <button *ngIf="task.attached" class="btn btn-sm btn-outline-secondary float-right" (click)="download(task.attached)">
+              <small>Descarga</small>
+            </button>
+          </td>
           <td>
             <a (click)="changeStatus(task)" *ngIf="task.status" class="badge pointer text-white badge-success">Realizada</a>
             <a (click)="changeStatus(task)" *ngIf="!task.status" class="badge pointer text-white badge-warning">Pendiente</a>

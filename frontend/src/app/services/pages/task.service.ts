@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { map, catchError } from 'rxjs/operators';
 import { API_URL } from 'src/app/config/config';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Task } from 'src/app/models/task.model';
 import { Observable } from 'rxjs';
 
@@ -22,7 +22,20 @@ export class TaskService {
       .pipe(
         map( (res: any) =>  res.tasks ),
         catchError( (error: any) => {
-          swal( 'Error', error.error.message, 'error');
+          swal( 'Error', error.errors.message, 'error');
+          return new Observable<any>();
+         })
+      );
+  }
+
+  save(task: Task) {
+    return this.http.post(this.url, task)
+      .pipe(
+        map( (res: any) => {
+          return res.task;
+        }),
+        catchError( (error: any) => {
+          swal( 'Error', error.errors.message, 'error');
           return new Observable<any>();
          })
       );
@@ -46,12 +59,10 @@ export class TaskService {
     .pipe(
       map( (res: any) => {
         swal('Tarea eliminada', `La tarea ${res.task.description} se eliminó con éxito`, 'success');
-        console.log(res, 'ok');
         return res.task;
       }),
       catchError( (error: any) => {
         swal( 'Error', error.error.message, 'error');
-        console.log(error, 'mal');
         return new Observable<any>();
        })
     );

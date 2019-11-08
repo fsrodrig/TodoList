@@ -3,7 +3,7 @@ import {
   OnInit
 } from '@angular/core';
 import {
-  TaskService
+  TaskService, FilesService
 } from 'src/app/services/service.index';
 import {
   Observable
@@ -14,6 +14,8 @@ import {
 import {
   map
 } from 'rxjs/operators';
+
+import {saveAs} from 'file-saver';
 
 @Component({
   selector: 'app-task',
@@ -28,7 +30,8 @@ export class TaskComponent implements OnInit {
   statusBox: boolean = null;
 
   constructor(
-    protected taskService: TaskService
+    protected taskService: TaskService,
+    protected fileService: FilesService
   ) {}
 
   ngOnInit() {
@@ -54,6 +57,13 @@ export class TaskComponent implements OnInit {
 
   search() {
     this.tasks = this.taskService.search(this.searchBox, this.statusBox);
+  }
+
+  download(fileName: string) {
+    this.fileService.download(fileName)
+    .subscribe(blob => {
+      saveAs(blob, fileName);
+    });
   }
 
 }
