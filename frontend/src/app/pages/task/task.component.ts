@@ -40,7 +40,7 @@ export class TaskComponent implements OnInit {
 
   changeStatus(task: Task) {
     task.status = !task.status;
-    this.taskService.update(task).subscribe((res) => console.log(res));
+    this.taskService.update(task).subscribe();
   }
 
   delete(task: Task) {

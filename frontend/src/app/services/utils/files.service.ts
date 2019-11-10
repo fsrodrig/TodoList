@@ -6,15 +6,13 @@ import { map } from 'rxjs/operators';
 @Injectable()
 export class FilesService {
 
-  url = API_URL;
-
   constructor(
     protected http: HttpClient
   ) { }
 
   upload( file: File, id: string ) {
 
-    this.url = this.url.concat( '/upload/tasks');
+    const url = API_URL.concat( '/upload/tasks');
 
     return new Promise( (resolve, reject) => {
 
@@ -34,7 +32,7 @@ export class FilesService {
 
       const token = localStorage.getItem('token');
 
-      xhr.open('PUT', this.url + '/' + id + '?token=' + token, true);
+      xhr.open('PUT', url + '/' + id + '?token=' + token, true);
       xhr.send(formData);
 
     });
@@ -42,7 +40,7 @@ export class FilesService {
   }
 
   download(fileName: string) {
-    this.url = this.url.concat('/download/tasks');
-    return this.http.get(this.url + '/' + fileName, {responseType: 'blob' });
+    const url = API_URL.concat('/download/tasks');
+    return this.http.get(url + '/' + fileName, {responseType: 'blob' });
   }
 }

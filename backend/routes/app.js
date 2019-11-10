@@ -3,10 +3,7 @@ var app = express();
 
 // Routes
 app.get('/', (req, res) => {
-    res.status(200).json({
-        ok: true,
-        message: 'Conection Success'
-    })
+    res.sendFile('../client/index.html', { root: __dirname });
 });
 
 module.exports = app

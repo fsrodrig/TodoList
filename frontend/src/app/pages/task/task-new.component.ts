@@ -24,8 +24,7 @@ export class TaskNewComponent implements OnInit {
   ngOnInit() {
     this.form = new FormGroup({
       description: new FormControl( null , Validators.required ),
-      status: new FormControl( false ),
-      attached: new FormControl( null )
+      status: new FormControl( false )
     });
   }
 
@@ -65,7 +64,8 @@ export class TaskNewComponent implements OnInit {
     }
 
     this.attached = file;
-    this.form.controls.attached.setValue(file.name);
   }
+
+
 
 }

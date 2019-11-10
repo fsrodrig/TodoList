@@ -23,6 +23,8 @@ app.use(function(req, res, next) {
     next();
   });
 
+// Compiled webapp
+app.use(express.static('client'));
 
 // DB Connection
 mongoose.connect('mongodb://localhost:27017/todo-list', {
@@ -36,11 +38,11 @@ mongoose.connect('mongodb://localhost:27017/todo-list', {
 });
 
 // Routes
-app.use('/tasks', taskRoutes);
-app.use('/users', userRoutes);
-app.use('/login', loginRoutes);
-app.use('/upload', uploadRoutes);
-app.use('/download', downloadRoutes);
+app.use('/api/tasks', taskRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/login', loginRoutes);
+app.use('/api/upload', uploadRoutes);
+app.use('/api/download', downloadRoutes);
 app.use('/', appRoutes);
 
 app.listen(port, () => console.log(`listening on http://localhost:${port}`));
